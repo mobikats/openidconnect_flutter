@@ -317,7 +317,7 @@ class OpenIdConnect {
   }
 
   static Future<void> revokeToken({required RevokeTokenRequest request}) async {
-    if (request.configuration.endSessionEndpoint == null) return;
+    if (request.configuration.revocationEndpoint == null) return;
 
     try {
       await httpRetry(
