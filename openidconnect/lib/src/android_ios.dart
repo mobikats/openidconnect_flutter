@@ -37,6 +37,12 @@ class OpenIdConnectAndroidiOS {
               Navigator.pop(dialogContext, url);
             }
           },
+          onWebViewCreated: (webViewController) {
+            //_controller.complete(webViewController);
+            webViewController.clearCache();
+            final cookieManager = CookieManager();
+            cookieManager.clearCookies();
+          },
           //   ),
           // ),
           // title: Text(title),
