@@ -39,9 +39,9 @@ class OpenIdConnectAndroidiOS {
           },
           onWebViewCreated: (webViewController) {
             //_controller.complete(webViewController);
-            webViewController.clearCache();
+            // webViewController.clearCache();
             // final cookieManager = CookieManager();
-            WebviewCookieManager().clearCookies();
+            // WebviewCookieManager().clearCookies();
           },
           //   ),
           // ),
