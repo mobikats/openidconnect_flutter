@@ -38,8 +38,8 @@ class OpenIdConnectAndroidiOS {
             }
 
             // ML: write the cookies to see if we can get them into app webviews
-            var cookies = WebviewCookieManager().getCookies(null);
-            print('COOKS: $cookies');
+            // var cookies = WebviewCookieManager().getCookies(null);
+            // print('COOKS: $cookies');
             // final storage = FlutterSecureStorage();
             // storage.write(key: 'kCookieKey', value: cookies);
           },
