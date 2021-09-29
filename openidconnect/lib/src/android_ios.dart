@@ -36,6 +36,12 @@ class OpenIdConnectAndroidiOS {
             if (url.startsWith(redirectUrl)) {
               Navigator.pop(dialogContext, url);
             }
+
+            // ML: write the cookies to see if we can get them into app webviews
+            var cookies = WebviewCookieManager().getCookies(null);
+            print('COOKS: $cookies');
+            // final storage = FlutterSecureStorage();
+            // storage.write(key: 'kCookieKey', value: cookies);
           },
           onWebViewCreated: (webViewController) {
             //_controller.complete(webViewController);
