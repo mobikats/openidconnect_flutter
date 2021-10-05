@@ -32,6 +32,11 @@ class OpenIdConnectAndroidiOS {
             flutterWebView.WebView(
           javascriptMode: flutterWebView.JavascriptMode.unrestricted,
           initialUrl: authorizationUrl,
+          onPageStarted: (url) {
+            if (url.startsWith(redirectUrl)) {
+              Navigator.pop(dialogContext, url);
+            }
+          },
           onPageFinished: (url) {
             if (url.startsWith(redirectUrl)) {
               Navigator.pop(dialogContext, url);
