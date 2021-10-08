@@ -17,6 +17,7 @@ import 'package:retry/retry.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart' as flutterWebView;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 part './src/openidconnect_client.dart';
 part './src/android_ios.dart';
