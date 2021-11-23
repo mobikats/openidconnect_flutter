@@ -9,6 +9,8 @@ class OpenIdConnectAndroidiOS {
     required int popupWidth,
     required int popupHeight,
   }) async {
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+
     //Create the url
 
     final result = await showDialog<String?>(
