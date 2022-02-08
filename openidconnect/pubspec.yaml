@@ -1,38 +1,38 @@
 name: openidconnect
 description: OpenIdConnect library for flutter.
-version: 1.0.17-Beta.5
+version: 1.0.21
 homepage: https://github.com/Concerti-IO/openidconnect_flutter
-publish_to: https://pub.dev/openidconnect
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.20.0"
+  sdk: ">=2.15.0 <3.0.0"
+  flutter: ">=2.8.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  openidconnect_platform_interface: ^1.0.2
-  openidconnect_web: ^1.0.10
-  flutter_secure_storage: ^5.0.0-beta.4
+  openidconnect_platform_interface: ^1.0.11
+  openidconnect_web: ^1.0.19
+  # openidconnect_windows: ^0.0.6
+  flutter_secure_storage: ^5.0.2
   jwt_decoder: ^2.0.1
 
-  cryptography: ^2.0.2
+  cryptography: ^2.0.5
 
-  url_launcher: ^6.0.9
-  http: ^0.13.3
+  url_launcher: ^6.0.17
+  http: ^0.13.4
   retry: ^3.1.0
 
   # TODO Remove these once native implementations can be added. Refactor so that the native implementations don't need to do the full cycle through.
-  webview_flutter: ^2.0.10
+  webview_flutter: ^3.0.0
 
   # ML added cookie manager to allow clearing
   webview_cookie_manager: ^2.0.1
 
 
 dev_dependencies:
-  pedantic: ^1.10.0
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
   mockito: ^5.0.12
@@ -46,3 +46,5 @@ flutter:
     platforms:
       web:
         default_package: openidconnect_web
+      # windows:
+      #   default_package: openidconnect_windows

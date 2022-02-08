@@ -27,13 +27,6 @@ part './src/models/event.dart';
 
 part 'src/config/openidconfiguration.dart';
 
-part './src/exceptions/openidconnect_exception.dart';
-part './src/exceptions/authentication_exception.dart';
-part './src/exceptions/http_response_exception.dart';
-part './src/exceptions/user_info_exception.dart';
-part './src/exceptions/revoke_exception.dart';
-part './src/exceptions/logout_exception.dart';
-
 part 'src/models/requests/interactive_authorization_request.dart';
 part 'src/models/requests/password_authorization_request.dart';
 part 'src/models/requests/refresh_request.dart';
@@ -100,19 +93,7 @@ class OpenIdConnect {
         popupHeight: request.popupHeight,
         popupWidth: request.popupWidth,
       );
-    } else if (!kIsWeb) {
-      //TODO add other implementations as they become available. For now, all desktop uses device code flow instead of authorization code flow
-      return await OpenIdConnect.authorizeDevice(
-        request: DeviceAuthorizationRequest(
-          audience: null,
-          clientId: request.clientId,
-          clientSecret: request.clientSecret,
-          configuration: request.configuration,
-          scopes: request.scopes,
-          additionalParameters: request.additionalParameters,
-        ),
-      );
-    } else {
+    } else if (kIsWeb) {
       final storage = FlutterSecureStorage();
       await storage.write(
           key: CODE_VERIFIER_STORAGE_KEY, value: request.codeVerifier);
@@ -120,6 +101,7 @@ class OpenIdConnect {
           key: CODE_CHALLENGE_STORAGE_KEY, value: request.codeChallenge);
 
       responseUrl = await _platform.authorizeInteractive(
+        context: context,
         title: title,
         authorizationUrl: uri.toString(),
         redirectUrl: request.redirectUrl,
@@ -132,6 +114,18 @@ class OpenIdConnect {
 
       await storage.delete(key: CODE_VERIFIER_STORAGE_KEY);
       await storage.delete(key: CODE_CHALLENGE_STORAGE_KEY);
+    } else {
+      //TODO add other implementations as they become available. For now, all desktop uses device code flow instead of authorization code flow
+      return await OpenIdConnect.authorizeDevice(
+        request: DeviceAuthorizationRequest(
+          audience: null,
+          clientId: request.clientId,
+          clientSecret: request.clientSecret,
+          configuration: request.configuration,
+          scopes: request.scopes,
+          additionalParameters: request.additionalParameters,
+        ),
+      );
     }
 
     return await _completeCodeExchange(request: request, url: responseUrl);
@@ -199,9 +193,13 @@ class OpenIdConnect {
     final codeResponse = DeviceCodeResponse.fromJson(response);
 
     await launch(
-      Uri.parse(codeResponse.verificationUrlComplete).replace(
-        queryParameters: {"user_code": codeResponse.userCode},
-      ).toString(),
+      Uri.parse(codeResponse.verificationUrlComplete)
+          .replace(
+            queryParameters:
+                // ignore: unnecessary_cast
+                {"user_code": codeResponse.userCode} as Map<String, dynamic>,
+          )
+          .toString(),
       enableJavaScript: true,
     );
 
@@ -220,11 +218,11 @@ class OpenIdConnect {
     var pollingInterval = codeResponse.pollingInterval;
 
     while (true) {
-      await Future.delayed(Duration(seconds: pollingInterval));
+      await Future<void>.delayed(Duration(seconds: pollingInterval));
 
       final pollingResponse = await http.post(pollingUri, body: pollingBody);
 
-      final json = jsonDecode(pollingResponse.body);
+      final json = jsonDecode(pollingResponse.body) as Map<String, dynamic>;
 
       if (pollingResponse.statusCode >= 200 &&
           pollingResponse.statusCode < 300) {
