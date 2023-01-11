@@ -279,6 +279,12 @@ class OpenIdConnectClient {
           state: _identity!.state,
         ),
       );
+
+      // ML Clear local storage since we have logged out!
+      if (this._identity != null) {
+        await OpenIdIdentity.clear();
+        this._identity = null;
+      }
     } on Exception {}
 
     _raiseEvent(AuthEvent(AuthEventTypes.NotLoggedIn));
