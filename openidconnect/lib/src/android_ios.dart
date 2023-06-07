@@ -11,6 +11,8 @@ class OpenIdConnectAndroidiOS {
   }) async {
     //Create the url
     bool loggedIn = false;
+    WebViewController? _controller;
+
     final result = await showDialog<String?>(
       context: context,
       barrierDismissible: false,
@@ -40,6 +42,9 @@ class OpenIdConnectAndroidiOS {
               }
 //             });
           },
+          onWebViewCreated: (controller) {
+            _controller = controller;
+          }
         );
       },
     );
