@@ -10,7 +10,7 @@ class OpenIdConnectAndroidiOS {
     required int popupHeight,
   }) async {
     //Create the url
-    bool loggedin = false;
+    bool loggedIn = false;
     final result = await showDialog<String?>(
       context: context,
       barrierDismissible: false,
@@ -23,7 +23,7 @@ class OpenIdConnectAndroidiOS {
               Navigator.pop(dialogContext, url);
               return;
             }
-            setState(() {
+//             setState(() {
             print("loggedin " + loggedIn.toString());
 
             if(loggedIn == false) {
@@ -38,7 +38,7 @@ class OpenIdConnectAndroidiOS {
                   //   document.getElementById('customer_login').submit();
                    '''));
               }
-            });
+//             });
           },
         );
       },
