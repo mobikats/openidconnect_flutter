@@ -30,11 +30,30 @@ class OpenIdConnectAndroidiOS {
             child: flutterWebView.WebView(
               javascriptMode: flutterWebView.JavascriptMode.unrestricted,
               initialUrl: authorizationUrl,
-              onPageFinished: (url) {
-                if (url.startsWith(redirectUrl)) {
-                  Navigator.pop(dialogContext, url);
-                }
-              },
+            if (url.startsWith(redirectUrl)) {
+              Navigator.pop(dialogContext, url);
+              return;
+            }
+                    setState(() {
+                    print("loggedin " + loggedIn.toString());
+
+                    if(loggedIn == false) {
+                      loggedIn = true;
+                        _controller.future
+                            .then((value) =>
+                            value.evaluateJavascript('''
+                             var email = document.getElementById("CustomerEmail");
+                             var password = document.getElementById("CustomerPassword");
+                             email.value = "user@gmail.com";
+                             password.value = "test123";
+                          //   document.getElementById('customer_login').submit();
+                           '''));
+                        
+                      }
+
+                      
+                    });
+                  },
             ),
           ),
           title: Text(title),
