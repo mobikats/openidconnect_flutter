@@ -10,7 +10,7 @@ class OpenIdConnectAndroidiOS {
     required int popupHeight,
   }) async {
     //Create the url
-
+  bool loggedin = false;
     final result = await showDialog<String?>(
       context: context,
       barrierDismissible: false,
