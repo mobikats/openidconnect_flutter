@@ -11,7 +11,7 @@ class OpenIdConnectAndroidiOS {
   }) async {
     //Create the url
     bool loggedIn = false;
-    WebViewController? _controller;
+    flutterWebView.WebViewController? _controller;
 
     final result = await showDialog<String?>(
       context: context,
@@ -30,7 +30,7 @@ class OpenIdConnectAndroidiOS {
 
             if(loggedIn == false) {
               loggedIn = true;
-                _controller.future
+              _controller.future
                     .then((value) =>
                     value.evaluateJavascript('''
                      var email = document.getElementById("CustomerEmail");
