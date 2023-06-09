@@ -10,35 +10,36 @@ class OpenIdConnectAndroidiOS {
     required int popupHeight,
   }) async {
     //Create the url
-    final _controller = Completer<flutterWebView.WebViewController>();
-    String email = 'richard.may@haymarket.com';
-    String password = 'R3v0lut10n#!';
+    // final _controller = Completer<flutterWebView.WebViewController>();
+    // String email = '';
+    // String password = '';
 
-    final javascriptCode = '''
-      document.getElementById('username').value = '$email';
-      document.getElementById('password').value = '$password';
-    ''';
+    // final javascriptCode = '''
+    //   document.getElementById('username').value = '$email';
+    //   document.getElementById('password').value = '$password';
+    // ''';
     final result = await showDialog<String?>(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) {
-        return flutterWebView.WebView(
-          javascriptMode: flutterWebView.JavascriptMode.unrestricted,
-          initialUrl: authorizationUrl,
-          onWebViewCreated:
-              (flutterWebView.WebViewController webViewController) {
-            _controller.complete(webViewController);
-          },
-          onPageFinished: (String url) {
-            if (url.startsWith(redirectUrl)) {
-              Navigator.pop(dialogContext, url);
-              return;
-            }
-            _controller.future.then((controller) {
-              controller.runJavascript(javascriptCode);
-            });
-          },
-        );
+        return AuthorizationWebView();
+        // return flutterWebView.WebView(
+        //   javascriptMode: flutterWebView.JavascriptMode.unrestricted,
+        //   initialUrl: authorizationUrl,
+        //   onWebViewCreated:
+        //       (flutterWebView.WebViewController webViewController) {
+        //     _controller.complete(webViewController);
+        //   },
+        //   onPageFinished: (String url) {
+        //     if (url.startsWith(redirectUrl)) {
+        //       Navigator.pop(dialogContext, url);
+        //       return;
+        //     }
+        //     _controller.future.then((controller) {
+        //       controller.runJavascript(javascriptCode);
+        //     });
+        //   },
+        // );
       },
     );
 
