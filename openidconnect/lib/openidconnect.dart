@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:cryptography/cryptography.dart' as crypto;
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:openidconnect/src/auth_webview.dart';
 import 'package:openidconnect_platform_interface/openidconnect_platform_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:retry/retry.dart';
-import 'package:webview_flutter/webview_flutter.dart' as flutterWebView;
+// import 'package:webview_flutter/webview_flutter.dart' as flutterWebView;
 import 'package:url_launcher/url_launcher.dart';
 
 part './src/openidconnect_client.dart';
@@ -283,7 +284,7 @@ class OpenIdConnect {
     final url = Uri.parse(request.configuration.endSessionEndpoint!);
     try {
       await httpRetry(
-            () => http.post(url, body: request.toMap()),
+        () => http.post(url, body: request.toMap()),
       );
     } on HttpResponseException catch (e) {
       throw LogoutException(e.toString());
