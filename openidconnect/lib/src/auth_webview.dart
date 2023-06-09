@@ -14,7 +14,6 @@ class AuthorizationWebView extends StatefulWidget {
 }
 
 class _AuthorizationWebViewState extends State<AuthorizationWebView> {
-  // ignore: unused_field
   InAppWebViewController? _webViewController;
   final _controllerCompleter = Completer<InAppWebViewController>();
   String email = '';
@@ -38,37 +37,17 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
 
   @override
   Widget build(BuildContext context) {
-    final initialData = '''
-      var email = '$email';
-      var password = '$password';
-
-      window.flutter_inAppWebView = {
-        callHandler: function(name, data) {
-          window.webkit.messageHandlers[name].postMessage(data);
-        }
-      };
-
-      setTimeout(function() {
-        var emailInput = document.getElementById('email');
-        var passwordInput = document.getElementById('password');
-
-        if (emailInput && passwordInput) {
-          emailInput.value = email;
-          passwordInput.value = password;
-        }
-      }, 100);
-    ''';
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Authorization WebView'),
       ),
       body: InAppWebView(
         initialUrlRequest: URLRequest(url: Uri.parse(widget.initialUrl)),
-        initialData: InAppWebViewInitialData(data: initialData),
         onWebViewCreated: (controller) {
           _webViewController = controller;
           _controllerCompleter.complete(controller);
+
+          injectJavaScript();
         },
         onConsoleMessage: (controller, consoleMessage) {
           print('Console Message: ${consoleMessage.message}');
@@ -79,6 +58,25 @@ class _AuthorizationWebViewState extends State<AuthorizationWebView> {
           ),
         ),
       ),
+    );
+  }
+
+  void injectJavaScript() async {
+    await _webViewController?.evaluateJavascript(
+      source: '''
+        var email = '$email';
+        var password = '$password';
+
+        setTimeout(function() {
+          var emailInput = document.getElementById('email');
+          var passwordInput = document.getElementById('password');
+
+          if (emailInput && passwordInput) {
+            emailInput.value = email;
+            passwordInput.value = password;
+          }
+        }, 100);
+      ''',
     );
   }
 }
