@@ -22,7 +22,7 @@ class OpenIdConnectAndroidiOS {
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) {
-        return AuthorizationWebView();
+        return AuthorizationWebView(initialUrl: authorizationUrl);
         // return flutterWebView.WebView(
         //   javascriptMode: flutterWebView.JavascriptMode.unrestricted,
         //   initialUrl: authorizationUrl,
