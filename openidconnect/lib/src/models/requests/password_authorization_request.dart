@@ -12,7 +12,7 @@ class PasswordAuthorizationRequest extends TokenRequest {
     super.prompts,
     Map<String, String>? additionalParameters,
   }) : super(
-          grantType: "password",
+          grantType: "authorization_code",
           additionalParameters: {
             "username": userName,
             "password": password,
